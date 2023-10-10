@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"<Unnamed>","c":"rescurssion_one","l":"main(String[])","u":"main(java.lang.String[])"},{"p":"<Unnamed>","c":"rescurssion_one","l":"rescurssion_one()","u":"%3Cinit%3E()"}];updateSearchResults();
