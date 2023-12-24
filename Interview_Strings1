@@ -1,1 +1,73 @@
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+
+public class Main
+{
+	public static void main(String[] args) {
+		String str1 = "We are Learning Java";
+		String word[] = str1.split(" ");
+		int n = word.length;
+// 		System.out.println(n);
+		for(int i=n-1;i>=0;i--){
+		    
+		    System.out.println(word[i]+" ");
+		    
+		}
+	}
+}
+
+
+public class Main
+{
+	public static void main(String[] args) {
+		String str1 = "Yash Patil";
+		char ch; String str2 = " ";
+		for(int i=0;i<str1.length();i++){
+            ch=str1.charAt(i);
+		    str2=ch+str2;
+		}
+		System.out.print(str2);
+		    
+		}
+	}
+
+public class Main
+{
+	public static void main(String[] args) {
+	StringBuffer sb =  new StringBuffer("Yash Patil");
+	System.out.print(sb.reverse());
+	}
+}
+
+public class Main
+{
+	public static void main(String[] args) {
+	    String str ="Yash Patil";
+	
+	char c[]=str.toCharArray();
+	for(int i =str.length()-1;i>=0;i--){
+	    System.out.print(str.charAt(i));
+	}
+	}
+}
+
+
+
+public class Main
+{
+	public static void main(String[] args) {
+        String str1 ="Yash Patil";
+        String reverse=" ";
+        for(int i = str1.length()-1;i>=0;i--){
+            reverse = reverse + str1.charAt(i);
+        }
+        System.out.print(reverse.trim());
+	}
+}
+
 
