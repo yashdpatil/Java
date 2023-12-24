@@ -1,0 +1,65 @@
+
+import java.util.*;
+public class Main
+{
+	public static void main(String[] args) {
+
+String input = "Yash patil";
+Map<Character,Integer> map = new HashMap<Character,Integer>();
+char[] chars = input.toCharArray();
+for(Character ch : chars){
+    //System.out.System.out.println(ch);
+    if(map.containsKey(ch)){
+        map.put(ch,map.get(ch)+1);
+    }else{
+        map.put(ch,1);
+    }
+}
+System.out.print(map);
+
+
+
+
+	}
+}
+
+import java.util.*;
+public class Main
+{
+	public static void main(String[] args) {
+
+String input = "Jay Mata Diii";
+Map<Character,Integer> map = new HashMap<Character,Integer>();
+char[] chars = input.toCharArray();
+for(Character ch : chars){
+    //System.out.System.out.println(ch);
+    if(map.containsKey(ch)){
+        map.put(ch,map.get(ch)+1);
+    }else{
+        map.put(ch,1);
+    }
+}
+System.out.print(map);
+
+/// in this key contains only that occuance only once
+// Set<Character> keys = map.keySet();
+// for(Character cha:keys){
+//     System.out.print(cha);
+// }
+
+
+//     Duplicate Occuranceee
+Set<Character> keys = map.keySet();
+for(Character cha:keys){
+    if(map.get(cha)>1){
+        System.out.println();
+         System.out.println(cha+"="+map.get(cha));
+    }
+    
+}
+
+
+	}
+}
+
+
