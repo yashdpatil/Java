@@ -1,0 +1,25 @@
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+import java.util.*;
+public class Main
+{
+	public static void main(String[] args) {
+		String x = "yash";
+		String y = "hsay";
+		char[] a = x.toCharArray();
+		char[] b = y.toCharArray();
+		Arrays.sort(a);
+		Arrays.sort(b);
+		boolean result = Arrays.equals(a,b);
+		if(result == true){
+		    System.out.print("String are Anagrams");
+		}else{
+		    System.out.print("String are not anagrams");
+		}
+	}
+}
