@@ -1,0 +1,37 @@
+
+import java.util.*;
+public class Main
+{
+    public static Map<Integer,Integer> Work(int amount){
+        Map<Integer,Integer> map = new HashMap<>();
+        int[] deno = {10,5,1};
+        for(int den : deno){
+            int count = 0;
+            while(amount>=den){
+                amount-=den;
+                count++;
+            }
+            if(count>0){
+                map.put(den,count);
+            }
+        }
+        return map;
+        
+    }
+	public static void main(String[] args) {
+        int amount =27;
+        Map<Integer,Integer>Mp = Work(amount);
+        for(Map.Entry<Integer,Integer> entry:Mp.entrySet()){
+            System.out.println(entry.getKey() + " "+entry.getValue());
+        }
+        for(int a : Mp.values()){
+            System.out.print("Message value"+a);
+        }
+        for(int b :Mp.keySet()){
+            System.out.print("Message key "+b);
+        }
+        System.out.println();
+        Mp.forEach((k,v) ->
+            System.out.println(k+"values"+v));
+	}
+}
