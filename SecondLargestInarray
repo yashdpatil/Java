@@ -1,0 +1,37 @@
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+
+public class Main
+{
+    static int max(int[] arr){
+        int mx = Integer.MIN_VALUE;
+		for(int i=0;i<arr.length;i++){
+		    if(arr[i]>mx){
+		        mx=arr[i];
+		    }
+		}
+		return mx;
+    }
+    static int secondLargest(int[] arr){
+        int mx = max(arr);
+        for(int i =0;i<arr.length;i++){
+            if(arr[i] == mx){
+                arr[i] = Integer.MIN_VALUE;
+            }
+        }
+        int ans = max(arr);
+        return ans;
+        
+    }
+	public static void main(String[] args) {
+		System.out.println("Hello World");
+		int arr[]={10,20,30,40,50,60,70,70};
+		System.out.print(secondLargest(arr));
+		
+	}
+}
