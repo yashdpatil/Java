@@ -1,0 +1,72 @@
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+import java.util.*;
+public class Main
+{
+	public static void main(String[] args) {
+        int arr[] = {0,1,0,2,1,0,0,1,2};
+
+        int count = 0;
+        List<Integer> l1 = new ArrayList<>();
+        for(int i: arr){
+                 if(i == 2){
+                 l1.add(i);
+    }else if(i == 1){
+        l1.add(count,i);
+        count++;
+    }else if(i == 0){
+        l1.add(0,i);
+        count++;
+    }
+}
+	System.out.print(l1);
+	}
+}
+
+/////////////---------------  using looops ------------------------------- ////////////
+
+
+import java.util.*;
+public class Main
+{
+	public static void main(String[] args) {
+int arr[] = {0,1,0,2,1,0,0,1,2};
+int n =  arr.length;
+int count0 = 0;
+int count1 = 0;
+int count2 = 0;
+for(int i = 0;i<n;i++){
+    if(arr[i] == 0)
+    count0++;
+    if(arr[i] == 1)
+    count1++;
+    if(arr[i] == 2)
+    count2++;
+}
+for(int i = 0;i<count0;i++){
+    arr[i]=0;
+}
+for(int i = count0;i<(count0+count1);i++){
+    arr[i]=1;
+}
+
+for(int i = (count0+count1);i<n;i++){
+    arr[i]=2;
+}
+for(int i :arr){
+    System.out.print(i);
+}
+
+
+
+
+
+
+	}
+
+}
