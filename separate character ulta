@@ -1,0 +1,29 @@
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+
+public class Main
+{
+	public static void main(String[] args) {
+		System.out.println("Hello World");
+		String str = "Yash Patil";
+		char ch[] = str.toCharArray();
+		int start =0;
+		for(int i=0;i<str.length();i++){
+		    if(ch[i] == ' '||i == str.length()-1){
+		        int end = (i == str.length()-1)?i:i-1;
+		        while(start<=end){
+		            System.out.print(ch[end]);
+		            end--;
+		        }
+		        System.out.print(" ");
+		         start = i+1;
+		        
+		    }
+		}
+	}
+}
