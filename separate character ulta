@@ -27,3 +27,41 @@ public class Main
 		}
 	}
 }
+
+
+
+
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+import java.util.*;
+public class Main
+{
+	public static void main(String[] args) {
+		System.out.println("Hello World");
+		String str = "Apple";
+		Map<Character,Integer> map = new HashMap<>();
+		char chh[] = str.toCharArray();
+		for(Character ch :chh){
+		   // System.out.println("ch"+ch);
+		   if(map.containsKey(ch)){
+		       map.put(ch,map.get(ch)+1);
+		   }else{
+		       map.put(ch,1);
+		   }
+		}
+	//	System.out.print(map);
+		map.forEach((k,v)->{
+		    if(v>1){
+		        System.out.print(k+" "+v);
+		    }
+		});
+
+
+	}
+}
+
