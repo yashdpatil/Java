@@ -1,0 +1,43 @@
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+import java.util.*;
+public class Main
+{
+	public static void main(String[] args) {
+		System.out.println("Hello World");
+		int arr1[] = {6,4,2,52};
+		int arr2[] ={6,5,1,24,45};
+		int end = 0;
+		int start =arr1.length-1;
+		while(start>=0 && end<arr2.length){
+		    if(arr1[start]>0 && arr2[end]<0){
+		        long temp = arr1[start];
+		        arr1[start] = arr2[end];
+		        arr2[end] = arr1[start];
+		        start--;
+		        end++;
+		        
+		    }else{
+		        break;
+		    }
+		}
+		Arrays.sort(arr1);
+		Arrays.sort(arr2);
+		
+	
+		
+		for (int i = 0; i < arr1.length; i++) {
+            System.out.print(arr1[i] + " ");
+        }
+        System.out.print("\narr2[] = ");
+        for (int i = 0; i < arr2.length; i++) {
+            System.out.print(arr2[i] + " ");
+        }
+		
+	}
+}
