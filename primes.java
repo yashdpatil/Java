@@ -21,12 +21,18 @@ public class Main
 		}
 	public static void main(String[] args) {
 		System.out.println("Hello World");
-// 		int no =1;
+		int no =10;
             
             for(int i =1;i<=100;i++){
                 if(isPrime(i)){
                     System.out.print(i+ " ");
                 }
+            }
+            
+            if(no%2 == 0){
+                System.out.print("eveen");
+            }else{
+                System.out.print("odd");
             }
 		
 	}
