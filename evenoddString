@@ -1,0 +1,38 @@
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+Java program to print Even length words in a String
+Given a string str, write a Java program to print all words with even length in the given string. Examples:
+
+Input: s = "This is a java language"
+Output: This
+        is
+        java
+        language 
+
+Input: s = "i am GFG"
+Output: am
+Approach:
+
+
+
+
+public class Main
+{
+	public static void main(String[] args) {
+		System.out.println("Hello World");
+		String str = "YAsh patil from padlse";
+		String [] str1 = str.split(" ");
+		for(int i =0;i<str1.length;i++){
+		    if(str1[i].length()%2 == 0){
+		        System.out.print(str1[i]);
+		    }
+		}
+		
+		
+	}
+}
