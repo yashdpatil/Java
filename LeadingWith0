@@ -1,0 +1,25 @@
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+
+public class Main
+{
+	public static void main(String[] args) {
+		System.out.println("Hello World");
+		String str = "000012345";
+		int ind =0 ;
+		for(int i =0;i<str.length();i++){
+		    char p = str.charAt(i);
+		    if(p!='0'){
+		        ind = i;
+		        break;
+		    }
+		}
+	String newstr = str.substring(ind,str.length());
+	System.out.print(newstr);
+	}
+}
