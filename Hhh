@@ -1,0 +1,129 @@
+from sqlalchemy import create_engine
+import pandas as pd
+import logging
+import configparser
+import time
+import os
+
+
+class ETLDataValidator:
+    def __init__(self, oracle_config, postgres_config):
+        # Create engines dynamically
+        self.oracle_engine = create_engine(
+            f"oracle+cx_oracle://{oracle_config['oracle_user']}:{oracle_config['oracle_password']}@{oracle_config['oracle_dsn']}"
+        )
+        self.postgres_engine = create_engine(
+            f"postgresql://{postgres_config['postgres_user']}:{postgres_config['postgres_password']}@{postgres_config['postgres_host']}:{postgres_config['postgres_port']}/{postgres_config['postgres_db']}"
+        )
+
+        # Configure logging
+        os.makedirs("./log", exist_ok=True)
+        logging.basicConfig(
+            filename=f"./log/ETL_Integrity_Test_{time.strftime('%Y%m%d_%H%M%S')}.log",
+            level=logging.INFO,
+            format="%(asctime)s - %(levelname)s - %(message)s",
+        )
+        self.logger = logging.getLogger(__name__)
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.INFO)
+        formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+        console_handler.setFormatter(formatter)
+        self.logger.addHandler(console_handler)
+
+    def validate_row_counts(self, table_name):
+        # Validate row counts
+        oracle_count_query = f"SELECT COUNT(*) FROM {table_name}"
+        postgres_count_query = f"SELECT COUNT(*) FROM {table_name}"
+
+        try:
+            oracle_count = pd.read_sql(oracle_count_query, self.oracle_engine).iloc[0, 0]
+            postgres_count = pd.read_sql(postgres_count_query, self.postgres_engine).iloc[0, 0]
+
+            if oracle_count == postgres_count:
+                self.logger.info(f"Row count matches for table {table_name}: {oracle_count} rows.")
+                return True
+            else:
+                self.logger.error(f"Row count mismatch for table {table_name}. Oracle: {oracle_count}, PostgreSQL: {postgres_count}.")
+                return False
+        except Exception as e:
+            self.logger.error(f"Error during row count validation for table {table_name}: {e}")
+            return False
+
+    def validate_data(self, table_name):
+        try:
+            # Fetch data
+            oracle_query = f"SELECT * FROM {table_name}"
+            postgres_query = f"SELECT * FROM {table_name}"
+            oracle_df = pd.read_sql(oracle_query, self.oracle_engine)
+            postgres_df = pd.read_sql(postgres_query, self.postgres_engine)
+
+            # Normalize column names
+            oracle_df.columns = oracle_df.columns.str.lower()
+            postgres_df.columns = postgres_df.columns.str.lower()
+
+            # Sort rows and reset index
+            oracle_df.sort_values(by=oracle_df.columns.tolist(), inplace=True)
+            postgres_df.sort_values(by=postgres_df.columns.tolist(), inplace=True)
+            oracle_df.reset_index(drop=True, inplace=True)
+            postgres_df.reset_index(drop=True, inplace=True)
+
+            # Compare DataFrames
+            if oracle_df.equals(postgres_df):
+                self.logger.info(f"Data matches for table {table_name}.")
+            else:
+                self.logger.error(f"Data mismatch detected for table {table_name}.")
+
+                # Align and compare column differences
+                oracle_aligned, postgres_aligned = oracle_df.align(postgres_df, join="inner", axis=1)
+                diff_df = oracle_aligned.compare(postgres_aligned)
+                if not diff_df.empty:
+                    diff_df.to_csv(f"{table_name}_column_differences.csv", index=True)
+                    self.logger.info(f"Column differences saved to {table_name}_column_differences.csv.")
+
+                # Save row-level differences
+                row_diff_df = pd.concat([oracle_df, postgres_df]).drop_duplicates(keep=False)
+                if not row_diff_df.empty:
+                    row_diff_df.to_csv(f"{table_name}_row_differences.csv", index=False)
+                    self.logger.info(f"Row-level differences saved to {table_name}_row_differences.csv.")
+        except Exception as e:
+            self.logger.error(f"Error during data validation for table {table_name}: {e}")
+
+    def validate_table(self, table_name):
+        # Perform row count and data validation
+        if self.validate_row_counts(table_name):
+            self.validate_data(table_name)
+
+    def close_connections(self):
+        # Close DB connections
+        self.oracle_engine.dispose()
+        self.postgres_engine.dispose()
+
+
+if __name__ == "__main__":
+    # Read configurations
+    config_file = "./conf/config.ini"
+    config = configparser.ConfigParser()
+    config.read(config_file)
+
+    oracle_config = {
+        "oracle_user": config.get("DatabaseConfig", "ORACLE_USER"),
+        "oracle_password": config.get("DatabaseConfig", "ORACLE_PASSWORD"),
+        "oracle_dsn": config.get("DatabaseConfig", "ORACLE_DSN"),
+    }
+    postgres_config = {
+        "postgres_user": config.get("DatabaseConfig", "POSTGRES_USER"),
+        "postgres_password": config.get("DatabaseConfig", "POSTGRES_PASSWORD"),
+        "postgres_host": config.get("DatabaseConfig", "POSTGRES_HOST"),
+        "postgres_port": config.get("DatabaseConfig", "POSTGRES_PORT"),
+        "postgres_db": config.get("DatabaseConfig", "POSTGRES_DB"),
+    }
+
+    # Validate tables
+    validator = ETLDataValidator(oracle_config, postgres_config)
+    tables_to_validate = ["ccm_cod_cntrct_mstr", "iai_info_account_info"]  # Add other table names
+
+    for table in tables_to_validate:
+        validator.validate_table(table)
+
+    validator.close_connections()
+    print("Validation process completed.")
